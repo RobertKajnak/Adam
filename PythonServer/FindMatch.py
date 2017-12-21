@@ -4,6 +4,7 @@ from watson_developer_cloud import PersonalityInsightsV3 as PersonalityInsights
 import pandas as pd
 import numpy as np
 import os
+import requests
 
 
 language_translator = LanguageTranslator(username='53d06608-1e59-4fd3-b7a6-06272abf99a9', password='HnXHP3R8pgDj')
@@ -14,8 +15,7 @@ class FindMatch:
 
     def __init__(self, data):
 
-        self.characteristics = ['age', 'gender', 'nationality', 'user_type']
-        self.days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+        self.characteristics = ['user_type']
         self.activities = ['museum', 'park', 'cafe', 'historic', 'unique']
 
         # create database if none is present
@@ -28,10 +28,17 @@ class FindMatch:
         self.index_number = len(self.database)
 
         # get this from server/facebook
-        self.text = data
-        self.user_characteristics = ['25', 'male', 'french', 'guide']
-        self.availability = [1, 0, 0, 0, 1, 0, 1]
-        self.preferences = [1, 0, 1, 1, 0]
+        data = json.loads(data)
+        token = data['token']
+        r = requests.get("https://graph.facebook.com/v2.11/me/posts?access_token=" + token)
+        fb_data = json.loads(r.content)
+        self.text = ''
+        for i in range(len(fb_data['data'])):
+            self.text += fb_data['data'][i]['story']
+
+        self.user_characteristics = [data['usertype']]
+        self.date = data['date']
+        self.preferences = list(data['likes'])
 
         # parameters to be tuned
         self.gender_correction = 0.8
@@ -63,8 +70,7 @@ class FindMatch:
             database[characteristic] = pd.Series([])
 
         # availability
-        for day in self.days:
-            database[day] = pd.Series([])
+        database['date'] = pd.Series([])
 
         # activities
         for activity in self.activities:
@@ -108,8 +114,7 @@ class FindMatch:
         for characteristic, user_characteristic in zip(self.characteristics, self.user_characteristics):
             self.database.set_value(self.index_number, characteristic, user_characteristic)
 
-        for day, availability in zip(self.days, self.availability):
-            self.database.set_value(self.index_number, day, availability)
+        self.database.set_value(self.index_number, 'date', self.date)
 
         for activity, preference in zip(self.activities, self.preferences):
             self.database.set_value(self.index_number, activity, preference)
@@ -125,7 +130,9 @@ class FindMatch:
 
         for i in range(self.index_number):
 
-            # Now it only checks if user_type is not the same. Could also check if available days are same.
+            # Now it only checks if user_type is not the same. Must also check if dates are the same:
+            # if self.database['date'].loc[self.index_number] == self.database['date'].loc[i]:
+
             if self.database['user_type'].loc[self.index_number] != self.database['user_type'].loc[i]:
                 # calculate error
                 error = self.database.loc[i][:22] - self.database.loc[self.index_number][:22]
@@ -151,13 +158,10 @@ class FindMatch:
 
     def main(self):
 
-        translated_text = self.translate_text()
+        self.text = self.translate_text()
         profile = self.analyze_personality()
         self.fill_database(profile)
         match_id = self.find_match()
 
         return match_id
 
-
-fm = FindMatch('For any system to be considered cognitive there are three basic requirements that need to be fulfilled. First of all, the system ought to expand human cognition. With expanding human cognition, we mean it should enhance human abilities either qualitatively or quantitatively. Qualitatively enhanced human cognition would be the case when a system is better at some task than a human ever could be. For instance, meteorologists use predictive models devised by computers to forecast the weather, because merely looking at the sky has not always proven to be too fruitful. However, for our system the latter type of enhancement is aimed for: quantitatively enhanced human cognition. Manually mining Facebook for profile information and timeline posts of every system user would be a daunting, if not impossible, task for any human. In contrary, a program can devise information from multiple profiles in mere seconds. In this way, the system will enhance human cognition. ')
-print fm.main()
