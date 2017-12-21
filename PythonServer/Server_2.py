@@ -4,6 +4,8 @@ import Evolution as ev
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ip = socket.gethostbyname(socket.gethostname())
+#use the next line when testing locally
+ip = "0.0.0.0"
 port = 23260
 
 address = (ip, port)

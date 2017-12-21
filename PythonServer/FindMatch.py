@@ -36,8 +36,10 @@ class FindMatch:
         self.text = ''
         for i in range(len(fb_data['data'])):
             self.text += fb_data['data'][i]['story']
-            
-        self.text = 'For any system to be considered cognitive there are three basic requirements that need to be fulfilled. First of all, the system ought to expand human cognition. With expanding human cognition, we mean it should enhance human abilities either qualitatively or quantitatively. Qualitatively enhanced human cognition would be the case when a system is better at some task than a human ever could be. For instance, meteorologists use predictive models devised by computers to forecast the weather, because merely looking at the sky has not always proven to be too fruitful. However, for our system the latter type of enhancement is aimed for: quantitatively enhanced human cognition. Manually mining Facebook for profile information and timeline posts of every system user would be a daunting, if not impossible, task for any human. In contrary, a program can devise information from multiple profiles in mere seconds. In this way, the system will enhance human cognition. '
+
+        # overwrite self.text here to test a string that always works with personality insights
+        #self.text = 'For any system to be considered cognitive there are three basic requirements that need to be fulfilled. First of all, the system ought to expand human cognition. With expanding human cognition, we mean it should enhance human abilities either qualitatively or quantitatively. Qualitatively enhanced human cognition would be the case when a system is better at some task than a human ever could be. For instance, meteorologists use predictive models devised by computers to forecast the weather, because merely looking at the sky has not always proven to be too fruitful. However, for our system the latter type of enhancement is aimed for: quantitatively enhanced human cognition. Manually mining Facebook for profile information and timeline posts of every system user would be a daunting, if not impossible, task for any human. In contrary, a program can devise information from multiple profiles in mere seconds. In this way, the system will enhance human cognition. '
+
         self.user_characteristics = [data['usertype']]
         self.date = data['date']
         self.preferences = json.loads(data['likes'])
@@ -138,6 +140,7 @@ class FindMatch:
     def find_match(self):
 
         match_id = 0
+        current_best = 1000
 
         for i in range(self.index_number):
 
@@ -174,9 +177,4 @@ class FindMatch:
         match_id = self.find_match()
 
         return match_id
-
-
-data = '{"token":"EAAXckKsm7pQBACnaXqAFUb7UCoEuR8IvSobbyZBKRBcsqW0ZB7tvOJxcPymtXLZAh1Vk0S1qeCXx1XZCXcrZBTJfieReYB9IWNebWmZBY5p5GzvhqBHW3YMGsiAYhhHSy4imZA4R9CtOfgqbKgBd6y1MRF7V4ZALMRoa31H12CJztoKZCJZAlutMEsBX1x7HHItak3Svn7aj1s5gZDZD","usertype":0,"date":"2017-12-19","likes":"[1, 0, 0, 0, 0]"}'
-fm = FindMatch(data)
-print fm.main()
 
