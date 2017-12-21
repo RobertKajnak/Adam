@@ -27,23 +27,27 @@ while True:
     #print "[+] Received ", data, " from the client"
     decr = json.loads(data)
     f.write('\n\nJSON deserialized(py object form):\n')
-    f.write(decr.__str__)
+    f.write(decr.__str__())
     
-    f.write('\n\nToken only:')
-    f.write(decr['token'])
+    f.write('\n\nToken only:\n')
+    f.write(decr['token'].__str__())
     print decr['token']
     print "     Processing data"
     
     r = requests.get("https://graph.facebook.com/v2.11/me/posts?access_token=" + decr['token'])
 
     f.write('\n\nResponse to the request:\n')
-    f.write(r.__str__)
+    f.write(r.__str__())
     print r.content
     
     f.write('\n\nActual request content:\n' )
     f.write(r.content)
-    dataToDbObject = json.loads(r.content)
 
+    dataToDbObject = json.loads(r.content)
+    f.write('\n\nDeserialized:\n')
+    f.write(dataToDbObject.__str__())
+
+    f.close()
     if data != " ":
         client.send("Closing client")
         client.close()
@@ -53,7 +57,7 @@ while True:
         print "Client sent ", data
         print "     Processing done\n[+] Reply sent"
 
-    f.close()
+    
 ''' sample token:
     EAAXckKsm7pQBACnaXqAFUb7UCoEuR8IvSobbyZBKRBcsqW0ZB7tvOJxcPymtXLZAh1Vk0S1qeCXx1XZCXcrZBTJfieReYB9IWNebWmZBY5p5GzvhqBHW3YMGsiAYhhHSy4imZA4R9CtOfgqbKgBd6y1MRF7V4ZALMRoa31H12CJztoKZCJZAlutMEsBX1x7HHItak3Svn7aj1s5gZDZD
 '''
