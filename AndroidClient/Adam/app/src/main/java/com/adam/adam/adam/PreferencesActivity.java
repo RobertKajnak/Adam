@@ -205,12 +205,8 @@ public class PreferencesActivity extends AppCompatActivity {
 
                // publishProgress("Message sent, waiting for response");
 
+                ///Wait for server response, contaning the match. This will be passed on the next activity
                 msg= in.readLine();
-                /*while (!msg.equals("END")){
-                    studentList.add(Student.deserialize(msg));
-                    msg= in.readLine();
-                }*/
-
 
                 in.close();
                 out.close();
