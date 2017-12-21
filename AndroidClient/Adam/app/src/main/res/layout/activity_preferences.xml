@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.adam.adam.adam.PreferencesActivity">
+
+    <ScrollView
+        android:id="@+id/scrollViewMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:fillViewport="true"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Greetings"
+                android:textAlignment="center"
+                android:textSize="25sp"
+                tools:layout_editor_absoluteX="162dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/radioTourist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:onClick="onRadioButtonClicked"
+                    android:textColor="#FF0000"
+                    android:textSize="20sp"
+                    android:text="Tourist"
+                    tools:layout_editor_absoluteX="138dp"
+                    tools:layout_editor_absoluteY="77dp" />
+
+                <RadioButton
+                    android:id="@+id/radioGuide"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FF0000"
+                    android:textSize="20sp"
+                    android:layout_gravity="center_vertical"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Guide"
+                    tools:layout_editor_absoluteX="138dp"
+                    tools:layout_editor_absoluteY="109dp" />
+            </RadioGroup>
+
+
+            <DatePicker
+                android:id="@+id/datePicker"
+                android:layout_width="352dp"
+                android:layout_height="398dp"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:id="@+id/listview_checkboxes"
+                android:layout_marginTop="30dp"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:textColor="#FF0000"
+                    android:textSize="20sp"
+                    android:id="@+id/checkbox_mus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="onCheckboxTicked"
+                    android:text="Arts/Museums" />
+
+                <CheckBox
+                    android:textColor="#FF0000"
+                    android:textSize="20sp"
+                    android:id="@+id/checkbox_park"
+                    android:layout_width="match_parent"
+                    android:onClick="onCheckboxTicked"
+                    android:layout_height="wrap_content"
+                    android:text="Outdoor/Park" />
+
+                <CheckBox
+                    android:textColor="#FF0000"
+                    android:textSize="20sp"
+                    android:id="@+id/checkbox_cafe"
+                    android:layout_width="match_parent"
+                    android:onClick="onCheckboxTicked"
+                    android:layout_height="wrap_content"
+                    android:text="Cosy/Café" />
+                <CheckBox
+                    android:textColor="#FF0000"
+                    android:textSize="20sp"
+                    android:id="@+id/checkbox_old"
+                    android:layout_width="match_parent"
+                    android:onClick="onCheckboxTicked"
+                    android:layout_height="wrap_content"
+                    android:text="Historic/Old" />
+                <CheckBox
+                    android:textColor="#FF0000"
+                    android:textSize="20sp"
+                    android:id="@+id/checkbox_uniq"
+                    android:layout_width="match_parent"
+                    android:onClick="onCheckboxTicked"
+                    android:layout_height="wrap_content"
+                    android:text="Unique/Surprise me" />
+            </LinearLayout>
+
+            <Button
+                android:layout_marginTop="30dp"
+                android:id="@+id/button_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Confirm"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/lastMessageTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                />
+        </LinearLayout>
+
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>
